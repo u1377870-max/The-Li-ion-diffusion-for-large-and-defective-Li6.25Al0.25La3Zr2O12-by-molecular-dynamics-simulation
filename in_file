@@ -8,7 +8,26 @@ neigh_modify every 1 delay 0 check yes
 neigh_modify one 5000
 
 read_data data.txt
-#replicate 10 10 10
+#replicate 15 15 15
+#write_data 1.txt
+
+#region 1 sphere 48.16238701 48.97467982 49.26154179 41.23
+#delete_atoms region 1 compress no
+#region 2 sphere 48.16238701 48.97467982 147.7846254 41.23
+#delete_atoms region 2 compress no
+#region 3 sphere 48.16238701 146.9240395 49.26154179 41.23
+#delete_atoms region 3 compress no
+#region 4 sphere 144.487161 48.97467982 49.26154179 41.23
+#delete_atoms region 4 compress no
+#region 5 sphere 144.487161 146.9240395 49.26154179 41.23
+#delete_atoms region 5 compress no
+#region 6 sphere 144.487161 48.97467982 147.7846254 41.23
+#delete_atoms region 6 compress no
+#region 7 sphere 48.16238701 146.9240395 147.7846254 41.23
+#delete_atoms region 7 compress no
+#region 8 sphere 144.487161 146.9240395 147.7846254 41.23
+#delete_atoms region 8 compress no
+#reset_atoms id
 #write_data 1.txt
 
 kspace_style pppm 1e-4
