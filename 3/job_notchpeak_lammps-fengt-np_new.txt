@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --time=72:00:00 # walltime, abbreviated by -t
+#SBATCH --nodes=4 # number of cluster nodes, abbreviated by -N
+#SBATCH -o slurm-%j.out-%N # name of the stdout, using the job number (%j) and the first node (%N)
+#SBATCH --ntasks=256 # number of MPI tasks, abbreviated by -n # additional information for allocated clusters
+#SBATCH --account=warren # account - abbreviated by -A
+#SBATCH --partition=notchpeak-freecycle # partition, abbreviated by -p # # set data and working directories
+
+
+cd $SLURM_SUBMIT_DIR
+
+module load gcc/8.5.0
+module load openmpi/4.1.5-gpu
+module load lammps/20230208-gpu
+
+mpirun -np $SLURM_NTASKS lmp < in.txt >  log
