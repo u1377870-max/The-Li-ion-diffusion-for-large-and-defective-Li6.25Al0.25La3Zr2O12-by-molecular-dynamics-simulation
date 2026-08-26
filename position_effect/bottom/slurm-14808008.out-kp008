@@ -1,0 +1,10 @@
+[kp164:406841] pml_ucx.c:915  Error: mca_pml_ucx_send_nbr failed: -25, Connection reset by remote peer
+[kp164:406842] pml_ucx.c:915  Error: mca_pml_ucx_send_nbr failed: -25, Connection reset by remote peer
+[kp164:406841] *** An error occurred in MPI_Send
+[kp164:406841] *** reported by process [632029185,156]
+[kp164:406841] *** on communicator MPI COMMUNICATOR 8 DUP FROM 0
+[kp164:406841] *** MPI_ERR_OTHER: known error not in list
+[kp164:406841] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[kp164:406841] ***    and potentially your MPI job)
+[kp008:1246578] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal
+[kp008:1246578] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
