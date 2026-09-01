@@ -1,0 +1,99 @@
+units metal
+atom_style full
+dimension 3
+boundary p p p
+neighbor 1.0 bin
+timestep 0.002
+neigh_modify every 1 delay 0 check yes
+neigh_modify one 5000
+
+read_data data.txt
+#replicate 15 15 15
+#write_data 1.txt
+
+kspace_style pppm 1e-4
+pair_style hybrid/overlay buck/coul/long 10.5 lennard/mdf 2.5 3 
+pair_coeff	1 1 buck/coul/long 0 0.1 0
+pair_coeff	1 2 buck/coul/long 0	 0.1 0
+pair_coeff	1 3 buck/coul/long 0 0.1 0
+pair_coeff	1 4 buck/coul/long 7042.59 0.2317 101.50 
+pair_coeff 1 4 lennard/mdf 101.5 0
+pair_coeff	1 5 buck/coul/long 0	 0.1 0
+pair_coeff	2 2 buck/coul/long 0	 0.1 0
+pair_coeff	2 3 buck/coul/long 0 0.1 0
+pair_coeff	2 4 buck/coul/long 14509.63 0.2438 30.83
+pair_coeff 2 4 lennard/mdf 30.83 0
+pair_coeff	2 5 buck/coul/long 0	 0.1 0
+pair_coeff	3 3 buck/coul/long 0 0.1 0
+pair_coeff	3 4 buck/coul/long 2153.80 0.2908 0.00 
+pair_coeff	3 5 buck/coul/long 0 0.1 0
+pair_coeff	4 4 buck/coul/long 4869.99 0.2402 27.22 
+pair_coeff 4 4 lennard/mdf 27.22 0
+pair_coeff	4 5 buck/coul/long 876.86 0.2589 0.00 
+pair_coeff	5 5 buck/coul/long 0 0.1 0
+
+#region 1 sphere 48.16238701 48.97467982 49.26154179 29.9
+#delete_atoms region 1 compress no
+#region 2 sphere 48.16238701 48.97467982 147.7846254 29.9
+#delete_atoms region 2 compress no
+#region 3 sphere 48.16238701 146.9240395 49.26154179 29.9
+#delete_atoms region 3 compress no
+#region 4 sphere 144.487161 48.97467982 49.26154179 29.9
+#delete_atoms region 4 compress no
+#region 5 sphere 144.487161 146.9240395 49.26154179 29.9
+#delete_atoms region 5 compress no
+#region 6 sphere 144.487161 48.97467982 147.7846254 29.9
+#delete_atoms region 6 compress no
+#region 7 sphere 48.16238701 146.9240395 147.7846254 29.9
+#delete_atoms region 7 compress no
+#region 8 sphere 144.487161 146.9240395 147.7846254 29.9
+#delete_atoms region 8 compress no
+#reset_atoms id
+#write_data 1.txt
+
+group Al type 1
+group La type 2
+group Zr type 3
+group Li type 5
+group O type 4
+
+#delete_atoms random count 2 no Al NULL 482793
+#delete_atoms random count 24 no La NULL 482793
+#delete_atoms random count 40 no Zr NULL 482793
+#delete_atoms random count 50 no Li NULL 482793
+#delete_atoms random count 144 no O NULL 482793
+#reset_atoms id
+#write_data 1.txt
+
+region 1 block 24 71 24 72 25 72
+group 1 region 1
+group Li1 intersect 1 Li
+region 2 block 75 115 75 115 75 115
+group 2 region 2
+group Li2 intersect 2 Li
+region 3 sphere 48.16238701 48.97467982 49.26154179 30
+group 3 region 3
+group Li3 intersect 3 Li
+
+min_style cg
+minimize 1e-15 1e-15 200000 200000
+
+reset_timestep 0
+
+thermo 1000 
+thermo_style custom step temp etotal lx ly lz press
+#velocity all create 700.0 52013 rot yes dist gaussian
+fix 1 all nvt temp 300 300 0.05
+dump 1 all custom 1000000 npt.lammpstrj id type x y z
+run 10000
+
+compute rdf1 1 rdf 200 5 5
+fix rdf1 Li1 ave/time 1 100000 110000 c_rdf1[1] c_rdf1[2] c_rdf1[3] file data1.rdf mode vector
+
+compute rdf2 2 rdf 200 5 5
+fix rdf2 Li2 ave/time 1 100000 110000 c_rdf2[1] c_rdf2[2] c_rdf2[3] file data2.rdf mode vector
+
+compute rdf3 3 rdf 200 5 5
+fix rdf3 Li3 ave/time 1 100000 110000 c_rdf3[1] c_rdf3[2] c_rdf3[3] file data3.rdf mode vector
+
+run 100000
