@@ -8,5 +8,5 @@ Run MSD curve to generate the diffusivity;
 The log, log.lammps, msd, and nvt.lammpstrj files are the results for the 20%+6-grain polycrystalline structure for diffusivity at 700 K.
 The in_file and initial_structure_relaxed_by_VASP could help people build voids in single crystalline and polycrystalline;
 The polycrystalline structure could be built by initial_structure_relaxed_by_VASP with ATOMSK software.
-Local diffusivity folder includes the Figure 3 results and in file. The structure file is too large and you could creat the file with above instructions, or you could email me and I could share with you.
+Local diffusivity folder includes the Figure 3 results and in file. The structure file is too large and you could create the file with above instructions, or you could email me and I could share with you.
 You are welcome to contact me if you have more suggestion, and questions.
